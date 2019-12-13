@@ -9,5 +9,5 @@ So I start by running a really big [source text file](christmas.txt) through [Te
 Anyway, so once we have a bunch of random sentences, I formated them into some HTML and converted it into a PDF file using weasyprint.
 
 
-## 12/12 Revision
+## 12/12 Final Portfolio Additions
 For my final Portfolio revision of this project, I added a festive background image to each page and filtered out some of the more boring-sounding chapter titles.
