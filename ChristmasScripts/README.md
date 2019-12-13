@@ -1,4 +1,4 @@
-# RANDOM CHRISTMAS MOVIE SCRIPT GENERATOR
+# Random Christmas Movie Script Generator
 
 I created code that randomly generates Christmas movie scripts when given an input text file containing a bunch of pre-existing Christmas movie scripts, songs, and novels.  You can try it out in a Google Colab python notebook [here](https://colab.research.google.com/drive/1vlSFQIlRDXxaOJbdhnjb9FOXrDqQx4X-), or download [the source code](christmasbook.py) and try to run it directly. 
 Alternatively, you can view either of these example pdfs that I already generated: [1](christmas_novel1.pdf) or [2](christmas_novel2.pdf)
