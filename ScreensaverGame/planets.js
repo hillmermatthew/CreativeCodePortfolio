@@ -2,13 +2,14 @@
 // It's like a screensaver that's also a game or something
 // 12/12/19
 
-// Note: If you edit the size of the window, you may need to adjust the quantity, speed, and scale of the planets using the parameters below.  Or you can change them just for fun, that's cool too.
+// Note: If you want to adjust the quantity, speed, and scale of the planets, you can do so using the parameters below.  
 
 var numPlanets = 100; //edit this to change number of planets
 var speed = 0.02;  //edit this to change the speed
 var pScale = 1.5;  //edit this to change the size of planets
 var shipSpeed = 15;  //edit this to change the speed of the ship
 var numCubes = 125;  //edit this to change the number of cubes
+var cScale = 1.6;  //edit this to change the size of cubes
 
 
 
@@ -19,6 +20,7 @@ var shipX = 0;
 var score = 0;
 var planets = [];
 var cubes = [];
+var aScale;
 
 function preload() {
   loadingVid = createVideo('loadingVid.mp4');
@@ -29,21 +31,25 @@ function preload() {
 }
 
 function setup() {
-  cWidth = width;
-  cHeight = height;
   loading = true;
-  createCanvas(1920, 1080, WEBGL);
+  //createCanvas(1920, 1080, WEBGL);
+  createCanvas(windowWidth, windowHeight, WEBGL);
   background(0,0,0);
   loadingVid.elt.muted = true;
   loadingVid.loop()
   forcefield.elt.muted = true;
   forcefield.loop()
   
+  aScale = width / 1920;
+  shipSpeed = shipSpeed * aScale;
+  pScale = pScale * aScale;
+  cScale = cScale * aScale;
+  
   for (var i = 0; i < numPlanets; i++) {
     planets[i] = new planet(speed,pScale);
   }
   for (i = 0; i< numCubes; i++) {
-    cubes[i] = new cube(speed/1.5, pScale, [255,0,0]);
+    cubes[i] = new cube(speed/1.5, cScale, [255,0,0]);
   }
   texture(loadingVid)
   
@@ -51,13 +57,17 @@ function setup() {
 }
 
 function draw() {
+  if(windowWidth != width || windowHeight != height)
+  {
+    resizeCanvas(windowWidth, windowHeight);
+  }
   background(0,0,0);
   
   if((loadingVid.time() < 2.5) && loading == true)
   {
     stroke(0);
     texture(loadingVid)
-    rect(-640/2, -130/2, 640, 130);
+    rect(-640/2 * aScale, -130/2 * aScale, 640 * aScale, 130 * aScale);
   }
   else if(loading == true)
   {
@@ -84,6 +94,11 @@ function draw() {
     }
   }
   
+  if(keyIsDown(82))
+  {
+    window.location.reload();
+  }
+  
   if(lostTheGame)
   {
     fill(255,0,0);
@@ -93,7 +108,7 @@ function draw() {
     textSize(width / 15);
     text("Final Score: " + str(score), 0, 0);
     textSize(width / 30);
-    text("[Refresh to try again]", 0, height/4);
+    text("[Press R to try again]", 0, height/4);
   }
   else if(!playing && !loading)
   {
@@ -124,7 +139,7 @@ function draw() {
     
     if(score < 300)
     {
-      fill(0,170,0);
+      fill(50,150,0);
       textAlign(CENTER, CENTER);
       textSize(width / 15);
       text("[AVOID THE BOXES]", 0, 0);
@@ -138,8 +153,8 @@ function draw() {
     strokeWeight(4);
     angleMode(DEGREES);
     //rotateX(3);
-    cone(20, 85, 3, 16);
-    translate(0, -80, -15);
+    cone(20 * aScale, 85 * aScale, 3, 16);
+    translate(0, -80 * aScale, -15 * aScale);
     stroke(50,50,255);
     fill(20,20,20);
     if(lostTheGame == true)
@@ -150,7 +165,7 @@ function draw() {
     strokeWeight(2);
     //rotateY(360);
     rotateX(185);
-    cone(40, 80, 5, 1);
+    cone(40 * aScale, 80 * aScale, 5, 1);
   }
   
 }
@@ -275,7 +290,7 @@ function cube(speed,scale,cubeColor)
         this.size = 50 * scale;
       }
       
-      if(dist(shipX, (height / 2.3) - 80, this.x, height * this.y) < this.size)
+      if(dist(shipX, (height / 2.3) - (80 * aScale), this.x, height * this.y) < this.size)
       {
         lostTheGame = true;
       }
@@ -283,4 +298,3 @@ function cube(speed,scale,cubeColor)
     }
   }   
 }
-
